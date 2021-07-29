@@ -55,7 +55,7 @@
     <connection>scm:git:git@github.com:Inform-Software/sonar-groovy.git</connection>
     <developerConnection>scm:git:git@github.com:Inform-Software/sonar-groovy.git
     </developerConnection>
-    <url>https://github.com/Inform-Software/sonar-groovy/tree/master</url>
+    <url>https://github.com/Inform-Software/sonar-groovy/tree/main</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -78,8 +78,6 @@
     <sonar.version>8.0</sonar.version>
     <groovy.version>2.4.21</groovy.version>
     <orchestrator.version>3.11</orchestrator.version>
-    <license.owner>SonarQube Community</license.owner>
-    <license.mailto> </license.mailto>
 
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.organization>tobix-github</sonar.organization>
@@ -89,7 +87,17 @@
     <dependencies>
       <dependency>
         <groupId>org.codehaus.groovy</groupId>
-        <artifactId>groovy-all</artifactId>
+        <artifactId>groovy</artifactId>
+        <version>${groovy.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-json</artifactId>
+        <version>${groovy.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-templates</artifactId>
         <version>${groovy.version}</version>
       </dependency>
       <dependency>
@@ -110,14 +118,20 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.gmetrics</groupId>
-        <artifactId>GMetrics</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
         <groupId>org.codenarc</groupId>
         <artifactId>CodeNarc</artifactId>
         <version>1.6.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-ant</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.gmetrics</groupId>
+        <artifactId>GMetrics</artifactId>
+        <version>1.1</version>
         <exclusions>
           <exclusion>
             <groupId>org.codehaus.groovy</groupId>
@@ -165,12 +179,63 @@
   </repositories>
 
   <build>
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.12.2</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- get better with time -->
+          <ratchetFrom>origin/main</ratchetFrom>
+          <formats>
+            <format>
+              <includes>
+                <include>*.md</include>
+                <include>.gitignore</include>
+              </includes>
+              <trimTrailingWhitespace />
+              <endWithNewline />
+              <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>4</spacesPerTab>
+              </indent>
+            </format>
+          </formats>
+          <java>
+            <licenseHeader>
+              <file>LICENSE-header-java.txt</file>
+            </licenseHeader>
+            <googleJavaFormat>
+              <version>${jdk.min.version}</version>
+            </googleJavaFormat>
+          </java>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-license-headers</id>
+            <phase>does-not-exist-to-unbind-plugin</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>com.coveo</groupId>
-          <artifactId>fmt-maven-plugin</artifactId>
-          <version>2.9.1</version>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.9.0.2155</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -185,4 +250,17 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <profiles>
+    <profile>
+      <!-- google-java-format needs Java 11 -->
+      <id>skip-spotless-on-old-java</id>
+      <activation>
+        <jdk>[,11)</jdk>
+      </activation>
+      <properties>
+        <spotless.check.skip>true</spotless.check.skip>
+      </properties>
+    </profile>
+  </profiles>
 </project>
