@@ -9,6 +9,7 @@
   </parent>
 
   <artifactId>sonar-groovy-plugin</artifactId>
+  <version>1.8-SNAPSHOT</version>
   <packaging>sonar-plugin</packaging>
 
   <name>Sonar Groovy Plugin</name>
@@ -131,4 +132,8 @@
       </plugin>
     </plugins>
   </build>
+
+  <scm>
+    <tag>main</tag>
+  </scm>
 </project>
