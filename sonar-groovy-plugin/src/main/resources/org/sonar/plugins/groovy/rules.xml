@@ -9989,4 +9989,14 @@ elsewhere (in another scope/block).</li>
     </param>
   </rule>
 
+<rule>
+  <key>org.sonar.plugins.groovy.codenarc.DynamicTypedRule</key>
+  <severity>MAJOR</severity>
+  <name><![CDATA[Variable is not dynamic typed]]></name>
+  <internalKey><![CDATA[NotDynamicTyped]]></internalKey>
+  <description><![CDATA[<p>Not dynamic typed variable</p>
+]]></description>
+  <tag>bug</tag>
+</rule>
+
 </rules>

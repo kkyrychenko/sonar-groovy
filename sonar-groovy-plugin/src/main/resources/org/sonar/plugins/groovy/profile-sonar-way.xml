@@ -319,10 +319,10 @@
       <key>org.codenarc.rule.convention.HashtableIsObsoleteRule</key>
       <priority>MINOR</priority>
     </rule>
-
-
-
-
-
+    <rule>
+      <repositoryKey>grvy</repositoryKey>
+      <key>org.sonar.plugins.groovy.codenarc.DynamicTypedRule</key>
+      <priority>MINOR</priority>
+    </rule>
   </rules>
 </profile>

@@ -50,7 +50,7 @@ public class SonarWayProfileTest {
 
     assertThat(profile.getName()).isEqualTo("Sonar way");
     assertThat(profile.getLanguage()).isEqualTo(Groovy.KEY);
-    assertThat(profile.getActiveRules()).hasSize(58);
+    assertThat(profile.getActiveRules()).hasSize(59);
     assertThat(messages.hasErrors()).isFalse();
 
     CodeNarcRulesDefinition definition = new CodeNarcRulesDefinition();

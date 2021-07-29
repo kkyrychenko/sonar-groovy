@@ -385,3 +385,4 @@ org.codenarc.rule.unused.UnusedPrivateFieldRule;linear;5min
 org.codenarc.rule.unused.UnusedPrivateMethodParameterRule;linear;5min
 org.codenarc.rule.unused.UnusedPrivateMethodRule;linear;5min
 org.codenarc.rule.unused.UnusedVariableRule.fixed;linear;5min
+org.sonar.plugins.groovy.codenarc.DynamicTypedRule;linear;5min
